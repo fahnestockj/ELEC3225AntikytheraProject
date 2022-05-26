@@ -8,7 +8,7 @@
  
  Run this command:
 
-`conda env create --name antikythera --file=environments.yml`
+`conda env create --name antikythera --file=environment.yml`
 
  This creates a virtual enviroment with the relevant packages that needs to be activated to be used
 
