@@ -3,6 +3,8 @@ channels:
   - defaults
 dependencies:
   - python=3.8.13
+  - numpy 
+  - matplotlib
   - pip
   - pip:
     - astropy
