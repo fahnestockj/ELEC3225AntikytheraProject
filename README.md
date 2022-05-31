@@ -19,6 +19,7 @@ To set up a conda in Powershell you need to be able to run
 This creates a powershell profile which needs permissions
 
 Most likely you'll get a permissions error
+
 To fix this 
 * run powershell as an administrator
 * run:
@@ -29,7 +30,7 @@ To fix this
 * relaunch powershell
 
 You should be able to see your conda env to the left of your path in parenthesis like this:
-![img](imgs\env.png)
+![img](./imgs/env.png)
 
 
 Activate the venv:
