@@ -7,8 +7,6 @@ from astroquery.jplhorizons import Horizons
 
 sim_start_date = "2018-01-01"     # simulating a solar system starting from this date
 sim_duration = 2 * 365                # (int) simulation duration in days
-m_earth = 5.9722e24 / 1.98847e30  # Mass of Earth relative to mass of the sun
-m_moon = 7.3477e22 / 1.98847e30
  
 class Object:                   # define the objects: the Sun, Earth, Mercury, etc
     def __init__(self, name, rad, color, r, v):
