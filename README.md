@@ -4,6 +4,9 @@
  Assuming you've installed miniconda or anaconda
   * [you can do that here](https://docs.conda.io/en/latest/miniconda.html)
 
+  ### MAKE SURE TO CHECK THE ADD TO PATH BOX
+  ![](imgs/unknown.png)
+
 ## Env setup
  Move to root directory of this project (ELEC3225AntikytheraProject) 
  
