@@ -1,0 +1,22 @@
+#MUTUAL PLANETARY CONJUNCTIONS- planets blocking eachother
+#data from http://astroclub.tau.ac.il/ephem/PlanetsConj/index.php?Year=2021
+date1 = "2018-01-07" #first planet: Mars, second planet: Jupiter
+date2 = "2018-01-13" #first planet: Mercury, second planet: Saturn	
+date3 = "2018-02-21" #first planet: Venus, second planet: Neptune
+date4 = "2018-02-25" #first planet: Mercury, second planet: Neptune
+date5 = "2018-03-04" #first planet: Mercury, second planet: Venus
+date6 = "2018-03-29" #first planet: Venus, second planet: Uranus
+date7 = "2018-04-02" #first planet: Mars, second planet: Saturn
+date8 = "2018-05-13" #first planet: Mercury, second planet: Uranus
+date9 = "2018-10-29" #first planet: Mercury, second planet: Jupiter
+date10 = "2018-12-07" #first planet: Mars, second planet: Neptune
+date11 = "2019-01-22" #first planet: Venus, second planet: Jupiter
+date12 = "2019-02-13" #first planet: Mars, second planet: Uranus
+date13 = "2019-02-18" #first planet: Venus, second planet: Saturn
+date14 = "2019-06-18" #first planet: Mercury, second planet: Mars
+date15 = "2019-08-24" #first planet: Venus, second planet: Mars
+date16 = "2020-05-18" #first planet: Jupiter, second planet: Saturn
+date17 = "2022-04-12" #first planet: Jupiter, second planet: Neptune
+date18 = "2024-04-21" #first planet: Jupiter, second planet: Uranus
+date19 = "2025-07-06" #first planet: Saturn, second planet: Neptune
+date20 = "2031-10-06" #first planet: Saturn, second planet: Uranus
