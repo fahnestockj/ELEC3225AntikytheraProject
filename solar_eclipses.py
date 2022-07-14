@@ -52,7 +52,7 @@ sql_command = """CREATE TABLE IF NOT EXISTS SOLAR_ECLIPSES
         );"""
 conn.execute(sql_command)
 
-time = Time(solar_eclipse_dates.date24).jd
+time = Time(solar_eclipse_dates.date1).jd
 
 mercury_x = float(Horizons(id=1, location="@sun", epochs=time).vectors()["x"])
 mercury_y = float(Horizons(id=1, location="@sun", epochs=time).vectors()["y"])
@@ -90,7 +90,7 @@ pluto_x = float(Horizons(id=9, location="@sun", epochs=time).vectors()["x"])
 pluto_y = float(Horizons(id=9, location="@sun", epochs=time).vectors()["y"])
 pluto_vx = float(Horizons(id=9, location="@sun", epochs=time).vectors()["vx"])
 pluto_vy = float(Horizons(id=9, location="@sun", epochs=time).vectors()["vy"])
-conn.execute("""INSERT OR IGNORE INTO SOLAR_ECLIPSES VALUES(24, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""", (solar_eclipse_dates.date24, mercury_x, mercury_y, mercury_vx, mercury_vy, venus_x, venus_y, venus_vx, venus_vy, earth_x, earth_y, earth_vx, earth_vy, mars_x, mars_y, mars_vx, mars_vy, jupiter_x, jupiter_y, jupiter_vx, jupiter_vy, saturn_x, saturn_y, saturn_vx, saturn_vy, uranus_x, uranus_y, uranus_vx, uranus_vy, neptune_x, neptune_y, neptune_vx, neptune_vy, pluto_x, pluto_y, pluto_vx, pluto_vy))
+conn.execute("""INSERT OR IGNORE INTO SOLAR_ECLIPSES VALUES(NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""", (solar_eclipse_dates.date1, mercury_x, mercury_y, mercury_vx, mercury_vy, venus_x, venus_y, venus_vx, venus_vy, earth_x, earth_y, earth_vx, earth_vy, mars_x, mars_y, mars_vx, mars_vy, jupiter_x, jupiter_y, jupiter_vx, jupiter_vy, saturn_x, saturn_y, saturn_vx, saturn_vy, uranus_x, uranus_y, uranus_vx, uranus_vy, neptune_x, neptune_y, neptune_vx, neptune_vy, pluto_x, pluto_y, pluto_vx, pluto_vy))
 
 conn.commit()
 conn.close()
