@@ -11,7 +11,7 @@ conn = sqlite3.connect('solar_eclipses.db')
 
 #conn.execute("""DROP TABLE SOLAR_ECLIPSES""")
 sql_command = """CREATE TABLE IF NOT EXISTS SOLAR_ECLIPSES 
-        (ID INT PRIMARY KEY,
+        (ID INTEGER PRIMARY KEY,
         DATE STRING,
         MERCURY_X FLOAT,
         MERCURY_Y FLOAT,
