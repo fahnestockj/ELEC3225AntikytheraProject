@@ -71,6 +71,11 @@ sql_command = """INSERT OR IGNORE INTO BODIES VALUES(9, 'NEPTUNE', 1024130000000
 cursor.execute(sql_command) 
 print("Neptune created successfully");
 
+		#PLUTO
+sql_command = """INSERT OR IGNORE INTO BODIES VALUES(10, 'PLUTO', 13090000000000000000000000, 1151000, 6387259783000, 4670, 13.1, 4500000000000);"""
+cursor.execute(sql_command) 
+print("PLUTO created successfully");
+
 #----------------MOON STUFF-------------------#
 
 		#---create MOON table----
