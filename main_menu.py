@@ -1,3 +1,6 @@
+from datetime import datetime
+from genericpath import exists
+from operator import length_hint
 import sqlite3
 import solarSystem
 
@@ -75,10 +78,26 @@ def main():
 		main()
 	elif choice == "5":
 		#horizonstesting.py <---Is this the correct .py file for showing the solar system simulation?
-		print("Program should pull up the solar system simulation, would be worthwhile to add user input at the end of program so they can return to the menu")
-		dateStr = input("input a date in year-month-day format: ")
-		solarSystem.simulation(dateStr)
+		dateStr = input("input a simulation start date in yyyy-mm-dd format: ")
+		format = '%Y-%m-%d'
+		try:
+			datetime1 = datetime.strptime(dateStr, format)
+		except:
+			print("Invalid date format")
+			main()
+		
+		lengthStr = input("input a simulation length (in days): ")
+		try:
+			length = int(lengthStr)
+			if(length < 0):
+				print("Invalid length")
+				main()
+		except:
+			print("Invalid length")
+			main()
 
+		# simulation("2002-01-01")
+		solarSystem.simulation(dateStr, lengthStr)
 		main()
 	elif choice == "0":
 		print("Goodbye.")
