@@ -44,7 +44,7 @@ Currently the solarSystem.py file can be run with:
 
 `python solarSystem.py`
 
-# Main Menu
+# Running the Program
 Open up main.py and run it. This is the main menu. You will be given choices:
 1. Search in database
 2. View solar eclipse dates
