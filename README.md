@@ -64,7 +64,7 @@ Open up main.py and run it (with the virtual env running / set as your vscode in
 5. View solar system simulation
 
 ## 1. Search in database
-* Queries the dates of all astronomical events and sorts them from earliest to most recent
+* Users input a date and choose an astronomical event to see the attributes for the event, if one exists at that date.
 ## 2. View solar eclipse dates
 * Queries the dates of all solar eclipses stored in the database that can be used to start the simulation from
 ## 3. View lunar eclipse dates
