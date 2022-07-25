@@ -33,6 +33,9 @@ def searchConj(x):
         startPluto_vy = vector_result[0][18]
     database.commit()
     #print(str(startMercury_vx) + "\n")
+    if(vector_result == []):
+        return "No results found"
+
     return startDate, startMercury_vx, startMercury_vy, startVenus_vx, startVenus_vy, startEarth_vx, startEarth_vy, startMars_vx, startMars_vy, startJupiter_vx, startJupiter_vy, startSaturn_vx, startSaturn_vy, startUranus_vx, startUranus_vy, startNeptune_vx, startNeptune_vy, startPluto_vx, startPluto_vy
 
 def searchSolar(x):
@@ -66,6 +69,8 @@ def searchSolar(x):
         startPluto_vy = vector_result[0][18]
     database.commit()
     #print(str(startMercury_vx) + "\n")
+    if(vector_result == []):
+        return "no results found"
     return startDate, startMercury_vx, startMercury_vy, startVenus_vx, startVenus_vy, startEarth_vx, startEarth_vy, startMars_vx, startMars_vy, startJupiter_vx, startJupiter_vy, startSaturn_vx, startSaturn_vy, startUranus_vx, startUranus_vy, startNeptune_vx, startNeptune_vy, startPluto_vx, startPluto_vy
 
 def searchLunar(x):
@@ -98,6 +103,9 @@ def searchLunar(x):
         startPluto_vx = vector_result[0][17]
         startPluto_vy = vector_result[0][18]
     database.commit()
+    if(vector_result == []):
+        return "no results found"
+
     #print(str(startMercury_vx) + "\n")
     return startDate, startMercury_vx, startMercury_vy, startVenus_vx, startVenus_vy, startEarth_vx, startEarth_vy, startMars_vx, startMars_vy, startJupiter_vx, startJupiter_vy, startSaturn_vx, startSaturn_vy, startUranus_vx, startUranus_vy, startNeptune_vx, startNeptune_vy, startPluto_vx, startPluto_vy
 
@@ -119,6 +127,8 @@ def searchBodies(x):
         rotational = vector_result[0][5]
         distance = vector_result[0][6]
     database.commit()
+    if(vector_result == []):
+      return "no results found"
     return name, mass, radius, volume, orbital, rotational, distance
 
 def searchMoons(x):
@@ -140,6 +150,8 @@ def searchMoons(x):
         rotational = vector_result[0][6]
         avg = vector_result[0][7]
     database.commit()
+    if(vector_result == []):
+      return "no results found"
     return moon, planet, mass, radius, volume, orbital, rotational, avg
 
 

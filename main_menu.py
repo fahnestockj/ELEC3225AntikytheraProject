@@ -53,6 +53,7 @@ def main():
 		else:
 			print("Invalid event type")
 			main()
+		main()
 	elif choice == "2":
 		# QUERY FOR ALL SOLAR ECLIPSES
 		print("Entire table of solar eclipses:")
