@@ -3,6 +3,7 @@ from genericpath import exists
 from operator import length_hint
 import sqlite3
 import solarSystem
+from datetime import datetime
 
 conn = sqlite3.connect('Database.db')
 # cursor objects are used to traverse, search, grab, etc. information from the database, similar to indices or pointers  
@@ -26,7 +27,9 @@ def main():
 		cursor.execute("""SELECT SOLAR_ECLIPSES.DATE FROM SOLAR_ECLIPSES""")
 		query_result = cursor.fetchall()
 		for i in query_result:
-			print("Date: ", i)
+			query_result.sort(key = lambda date: datetime.strptime(date, "%d-%m-%y"))
+			print()
+			print("Date: ", i[0])
 		print("\n")
 		main()
 	elif choice == "3":
