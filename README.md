@@ -1,10 +1,14 @@
-# ELEC3225AntikytheraProject
+# Installing and setting up the project
+Clone the repository!
+
+
+To run the project locally you need to install several packages. We used anaconda to manage our packages with a virtual environment.
 
 ## Conda 
  Assuming you've installed miniconda or anaconda
   * [you can do that here](https://docs.conda.io/en/latest/miniconda.html)
 
-  ### MAKE SURE TO CHECK THE ADD TO PATH BOX
+  ### if installing for the first time make sure to check the add to my PATH box
   ![](imgs/unknown.png)
 
 ## Env setup
@@ -16,7 +20,7 @@
 
  This creates a virtual enviroment with the relevant packages that needs to be activated to be used
 
-## Windows is terrible
+## Windows powershell problems
 To set up a conda in Powershell you need to be able to run
 `conda init powershell`
 This creates a powershell profile which needs permissions
@@ -36,16 +40,21 @@ You should be able to see your conda env to the left of your path in parenthesis
 ![img](./imgs/env.png)
 
 
-Activate the venv:
+to activate the venv run:
 
 `conda activate antikythera`
 
-Currently the solarSystem.py file can be run with:
+Then to run the project run:
+`python main.py`
 
-`python solarSystem.py`
+Alternatively assuming your in vscode you can set your interpreter to be the conda env by opening the command pallete and typing
+`Python: Select Interpreter`
 
-# Running the Program
-Open up main.py and run it. This is the main menu. You will be given choices:
+Then select the antikythera python version, and run main.py from the IDE.
+
+
+# User Guide 
+Open up main.py and run it (with the virtual env running / set as your vscode interpreter). This is the main menu. You will be given choices:
 1. Search in database
 2. View solar eclipse dates
 3. View lunar eclipse dates
