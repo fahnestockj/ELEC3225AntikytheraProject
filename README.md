@@ -1,3 +1,5 @@
+[Link to github repo](https://github.com/fahnestockj/ELEC3225AntikytheraProject)
+
 # Installing and setting up the project
 Clone the repository!
 

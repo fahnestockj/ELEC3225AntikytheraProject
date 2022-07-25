@@ -11,7 +11,6 @@ def searchConj(x):
     """, (f'%{x}',))
 
     vector_result = cursor.fetchall()
-
     for i in vector_result:
         startDate = vector_result[0][0]
         startMercury_vx = vector_result[0][1]

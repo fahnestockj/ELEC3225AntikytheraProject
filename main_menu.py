@@ -3,6 +3,7 @@ from genericpath import exists
 from operator import length_hint
 import sqlite3
 import solarSystem
+import query
 from datetime import datetime
 
 conn = sqlite3.connect('Database.db')
@@ -19,16 +20,47 @@ def main():
 	choice = input("Please choose an option from above: ")
 	if choice == "1":
 		#query()
-		print("This is when the program would pull up query.py")
-		main()
+		dateStr = input("input a date to search by in yyyy-mm-dd format: ")
+		format = '%Y-%m-%d'
+		try:
+			datetime2 = datetime.strptime(dateStr, format)
+		except:
+			print("Invalid date format")
+			main()
+		
+		print('Event types: lunarEclipse, solarEclipse, conjunction')
+
+		eventType = input("Please enter the type of event you would like to search for: ")
+		if eventType == "lunarEclipse":
+			result = query.searchLunar(dateStr)
+			if(result == None):
+				print("No lunar eclipse found")
+			else:
+				print(result)
+		elif eventType == "solarEclipse":
+			result = query.searchSolar(dateStr)
+			if(result == None):
+				print("No solar eclipse found")
+			else:
+				print(result)
+
+		elif eventType == "conjunction":
+			result = query.searchConj(dateStr)
+			if(result == None):
+				print("No conjuction found")
+			else:
+				print(result)
+		else:
+			print("Invalid event type")
+			main()
 	elif choice == "2":
 		# QUERY FOR ALL SOLAR ECLIPSES
 		print("Entire table of solar eclipses:")
 		cursor.execute("""SELECT SOLAR_ECLIPSES.DATE FROM SOLAR_ECLIPSES""")
 		query_result = cursor.fetchall()
 		for i in query_result:
-			query_result.sort(key = lambda date: datetime.strptime(date, "%d-%m-%y"))
-			print()
+		# 	query_result.sort(key = lambda date: datetime.strptime(date, "%d-%m-%y"))
+		# 	print()
 			print("Date: ", i[0])
 		print("\n")
 		main()
