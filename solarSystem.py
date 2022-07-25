@@ -6,7 +6,7 @@ from astropy.time import Time
 from astroquery.jplhorizons import Horizons
 from matplotlib.widgets import Button
 from tabulate import tabulate
-sim_start_date = "2008-01-01"     # simulating a solar system starting from this date
+sim_start_date = "1900-01-01"     # simulating a solar system starting from this date
 sim_duration = 2*365 # (int) simulation duration in days
  
 class Object:                   # define the objects: the Sun, Earth, Mercury, etc
