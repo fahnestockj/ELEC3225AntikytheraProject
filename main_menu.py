@@ -75,7 +75,7 @@ def main():
 		#horizonstesting.py <---Is this the correct .py file for showing the solar system simulation?
 		print("Program should pull up the solar system simulation, would be worthwhile to add user input at the end of program so they can return to the menu")
 		dateStr = input("input a date in year-month-day format: ")
-
+		solarSystem.simulation(dateStr)
 
 		main()
 	else:
