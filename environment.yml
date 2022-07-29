@@ -6,7 +6,6 @@ dependencies:
   - numpy 
   - matplotlib
   - pip
-  - ipykernel
   - pip:
     - astropy
     - astroquery

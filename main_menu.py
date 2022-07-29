@@ -59,10 +59,18 @@ def main():
 		print("Entire table of solar eclipses:")
 		cursor.execute("""SELECT SOLAR_ECLIPSES.DATE FROM SOLAR_ECLIPSES""")
 		query_result = cursor.fetchall()
+		sort_list = []
 		for i in query_result:
+<<<<<<< Updated upstream
 		# 	query_result.sort(key = lambda date: datetime.strptime(date, "%d-%m-%y"))
 		# 	print()
 			print("Date: ", i[0])
+=======
+			sort_list.append(i[0])
+		sort_list.sort(key = lambda date: datetime.strptime(date, "%Y-%m-%d"))
+		for j in sort_list:
+			print(j)
+>>>>>>> Stashed changes
 		print("\n")
 		main()
 	elif choice == "3":
@@ -70,8 +78,12 @@ def main():
 		print("Entire table of lunar eclipses:")
 		cursor.execute("""SELECT LUNAR_ECLIPSES.DATE FROM LUNAR_ECLIPSES""")
 		query_result = cursor.fetchall()
+		sort_list = []
 		for i in query_result:
-			print("Date: ", i)
+			sort_list.append(i[0])
+		sort_list.sort(key = lambda date: datetime.strptime(date, "%Y-%m-%d"))
+		for j in sort_list:
+			print(j)
 		print("\n")
 		main()
 	elif choice == "4":
@@ -94,9 +106,13 @@ def main():
 		print("1 = Mercury, 2 = Venus, 3 = Earth, 4 = Mars, 5 = Jupiter, 6 = Saturn, 7 = Uranus, 8 = Neptune, 9 = Pluto")
 		cursor.execute("""SELECT CONJUNCTION.DATE, CONJUNCTION.FIRST_PLANET, CONJUNCTION.SECOND_PLANET FROM CONJUNCTION""")
 		query_result = cursor.fetchall()
+		sort_list = []
 		for i in query_result:
-			print(i)
-		print("\n")
+			sort_list.append(i[0])
+		sort_list.sort(key = lambda date: datetime.strptime(date, "%Y-%m-%d"))
+		for j in sort_list:
+			print(j)
+		print("\n")		
 		# # QUERY FOR ALL LUNAR ECLIPSES
 		# print("Entire table of lunar eclipses:")
 		# cursor.execute("""SELECT * FROM LUNAR_ECLIPSES""")
