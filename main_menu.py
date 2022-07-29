@@ -61,22 +61,13 @@ def main():
 		query_result = cursor.fetchall()
 		sort_list = []
 		for i in query_result:
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 		# 	query_result.sort(key = lambda date: datetime.strptime(date, "%d-%m-%y"))
 		# 	print()
 			print("Date: ", i[0])
-=======
-=======
->>>>>>> Stashed changes
 			sort_list.append(i[0])
 		sort_list.sort(key = lambda date: datetime.strptime(date, "%Y-%m-%d"))
 		for j in sort_list:
 			print(j)
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 		print("\n")
 		main()
 	elif choice == "3":
