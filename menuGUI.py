@@ -3,6 +3,11 @@ from datetime import datetime
 from tkinter import *
 from numpy import single
 from tkinter import ttk
+from tkinter import messagebox
+from genericpath import exists
+from operator import length_hint
+import solarSystem
+import query
 
 conn = sqlite3.connect('Database.db')
 # cursor objects are used to traverse, search, grab, etc. information from the database, similar to indices or pointers  
@@ -24,6 +29,11 @@ def searchSolar():
     new.geometry("750x400")
     new.title("New Window")
     Label(new, text="Solar Eclipse Dates", font=('Helvetica 17 bold')).pack(pady=30)
+    def date_error():
+        messagebox.showerror('Python Error', 'Error: Invalid Simulation Length!')
+    def selected_item():
+        for i in lb.curselection():
+            solarSystem.simulation(lb.get(i), lengthStr.get())
 
     # QUERY FOR ALL SOLAR ECLIPSES
     cursor.execute("""SELECT SOLAR_ECLIPSES.DATE FROM SOLAR_ECLIPSES""")
@@ -38,20 +48,31 @@ def searchSolar():
         x = 0
         lb.insert(x, j)
         x = x + 1
-
-    def selected_item():
-        for i in lb.curselection():
-            print(lb.get(i))
+    
+    #store length
+    lengthStr = StringVar()
+    lengthStr_label = ttk.Label(new, text="Simulation Length (in days):")
+    lengthStr_entry = ttk.Entry(new, textvariable=lengthStr, width=20)
+    lengthStr_entry.focus()
 
     btn = Button(new, text='Start Simulation', command=selected_item)
     btn.pack(side='bottom')
     lb.pack()
+    lengthStr_entry.pack(side='bottom')
+    lengthStr_label.pack(side='bottom')
 
 def searchLunar():
     new= Toplevel(master)
     new.geometry("750x400")
     new.title("New Window")
     Label(new, text="Lunar Eclipse Dates", font=('Helvetica 17 bold')).pack(pady=30)
+
+    def date_error():
+        messagebox.showerror('Python Error', 'Error: Invalid Simulation Length!')
+    def selected_item():
+        for i in lb.curselection():
+            solarSystem.simulation(lb.get(i), lengthStr.get())
+
     cursor.execute("""SELECT LUNAR_ECLIPSES.DATE FROM LUNAR_ECLIPSES""")
     query_result = cursor.fetchall()
     sort_list = []
@@ -64,19 +85,23 @@ def searchLunar():
         x = 0
         lb.insert(x, j)
         x = x + 1
-
-    def selected_item():
-        for i in lb.curselection():
-            print(lb.get(i))
             
+    #store length
+    lengthStr = StringVar()
+    lengthStr_label = ttk.Label(new, text="Simulation Length (in days):")
+    lengthStr_entry = ttk.Entry(new, textvariable=lengthStr, width=20)
+    lengthStr_entry.focus()
+
     btn = Button(new, text='Start Simulation', command=selected_item)
     btn.pack(side='bottom')
     lb.pack()
+    lengthStr_entry.pack(side='bottom')
+    lengthStr_label.pack(side='bottom')
+
 def searchConj():
     new= Toplevel(master)
-    new.geometry("750x400")
+    new.geometry("750x500")
     new.title("New Window")
-    # Create a Label in New window
     Label(new, text="Conjunction Dates", font=('Helvetica 17 bold')).pack(pady=30)
     Label(new, text="1 = Mercury, 2 = Venus, 3 = Earth, 4 = Mars, 5 = Jupiter, 6 = Saturn, 7 = Uranus, 8 = Neptune, 9 = Pluto", font=('Helvetica 10 bold')).pack(pady=30)
     # define columns
@@ -88,22 +113,34 @@ def searchConj():
     tree.heading('p1', text='Planet 1 ID')
     tree.heading('p2', text='Planet 2 ID')
 
+    def date_error():
+        messagebox.showerror('Python Error', 'Error: Invalid Simulation Length!')
+    def selected_item():
+        item = tree.selection()[0]
+        item_detail = tree.item(item)
+        solarSystem.simulation(item_detail.get("values")[0], lengthStr.get())
+
     cursor.execute("""SELECT CONJUNCTION.DATE, CONJUNCTION.FIRST_PLANET, CONJUNCTION.SECOND_PLANET FROM CONJUNCTION ORDER BY DATE DESC""")
     query_result = cursor.fetchall()
     
     for i in query_result:
         tree.insert('', 'end', values=(i[0], i[1], i[2]))
             
-    def selected_item():
-        item = tree.selection()[0]
-        item_detail = tree.item(item)
-        print (item_detail.get("values")[0])
             
+    #store length
+    lengthStr = StringVar()
+    lengthStr_label = ttk.Label(new, text="Simulation Length (in days):")
+    lengthStr_entry = ttk.Entry(new, textvariable=lengthStr, width=20)
+    lengthStr_entry.focus()
+
+    
     btn = Button(new, text='Start Simulation', command=selected_item)
     btn.pack(side='bottom')
     tree.pack()
+    lengthStr_entry.pack(side='bottom')
+    lengthStr_label.pack(side='bottom')
 
-# Initializee selection
+# Initialize selection
 v = StringVar(master, "1")
  
 # Create radiobuttons
