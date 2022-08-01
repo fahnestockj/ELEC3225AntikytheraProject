@@ -93,6 +93,8 @@ def searchBody():
     
     for i in query_result:
         tree.insert('', 'end', values=(i[0], i[1], i[2], i[3], i[4], i[5], i[6]))
+
+    tree.pack()
     
 def searchSolar():
     # Create new window
