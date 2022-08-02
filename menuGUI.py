@@ -4,6 +4,7 @@ from tkinter import *
 from numpy import single
 from tkinter import ttk
 from tkinter import messagebox
+from functools import partial
 from genericpath import exists
 from operator import length_hint
 import solarSystem
@@ -23,51 +24,87 @@ def searchAll():
     new.geometry("750x400")
     new.title("All Events")
     # Create a Label in New window
-    Label(new, text="Event List", font=('Helvetica 17 bold')).pack(pady=30)
+    Label(new, text="Event List", font=('Helvetica 17 bold')).pack(pady=15)
+    Label(new, text="Click Column Headings to Sort (alphabetical or chronological)", font=('Helvetica 10 bold')).pack(pady=0)
 
     def date_error():
         messagebox.showerror('Python Error', 'Error: Invalid Simulation Length!')
+    
     def selected_item():
-        item = tree.selection()
-        item_detail = tree.item(item)
+        item = treeview.selection()
+        item_detail = treeview.item(item)
         solarSystem.simulation(item_detail.get("values")[1], lengthStr.get())
 
-    # define columns
-    columns = ('type', 'date')
-    tree = ttk.Treeview(new, columns=columns, show='headings')
+    #class to sort treeview by event type (alphabetical) and by date (chronological)
+    class MyTreeview(ttk.Treeview):
+        def heading(self, column, sort_by=None, **kwargs):
+            if sort_by and not hasattr(kwargs, 'command'):
+                func = getattr(self, f"_sort_by_{sort_by}", None)
+                if func:
+                    kwargs['command'] = partial(func, column, False)
+            return super().heading(column, **kwargs)
 
-    # define headings
-    tree.heading('type', text='Event Type')
-    tree.heading('date', text='Event Date')
+        def _sort(self, column, reverse, data_type, callback):
+            l = [(self.set(k, column), k) for k in self.get_children('')]
+            l.sort(key=lambda t: data_type(t[0]), reverse=reverse)
+            for index, (_, k) in enumerate(l):
+                self.move(k, '', index)
+            self.heading(column, command=partial(callback, column, not reverse))
 
-    # add all event dates and type into list
+        def _sort_by_name(self, column, reverse):
+            self._sort(column, reverse, str, self._sort_by_name)
+
+        def _sort_by_date(self, column, reverse):
+            def _str_to_datetime(string):
+                return datetime.strptime(string, "%Y-%m-%d")
+            self._sort(column, reverse, _str_to_datetime, self._sort_by_date) 
+
+    arrlbHeader = ["Type" , "Date"]
+    treeview = MyTreeview(new, columns=arrlbHeader, show="headings")
+
     cursor.execute("""SELECT SOLAR_ECLIPSES.DATE FROM SOLAR_ECLIPSES""")
     solar_result = cursor.fetchall()
+    arrRows = []
     for i in solar_result:
-        tree.insert('', 'end', values=('Solar Eclipse', i[0]))
+        arrRows.append(["Solar Eclipse", i[0]])
 
     cursor.execute("""SELECT LUNAR_ECLIPSES.DATE FROM LUNAR_ECLIPSES""")
     lunar_result = cursor.fetchall()
     for i in lunar_result:
-        tree.insert('', 'end', values=('Lunar Eclipse', i[0]))
+        arrRows.append(["Lunar Eclipse", i[0]])
 
     cursor.execute("""SELECT CONJUNCTION.DATE FROM CONJUNCTION""")
     conjunction_result = cursor.fetchall()
     for i in conjunction_result:
-        tree.insert('', 'end', values=('Conjunction', i[0]))
+        arrRows.append(["Conjunction", i[0]])
+
+    arrSortType = ["name", "date"]
+    for iCount in range(len(arrlbHeader)):
+        strHdr = arrlbHeader[iCount]
+        treeview.heading(strHdr, text=strHdr.title(), sort_by=arrSortType[iCount])
+        treeview.column(arrlbHeader[iCount], stretch=True)
+
+    treeview.pack()
+
+    for iCount in range(len(arrRows)):
+        treeview.insert("", "end", values=arrRows[iCount])
     
-    #store length
+    #store simulation length
     lengthStr = StringVar()
-    lengthStr_label = ttk.Label(new, text="Simulation Length (in days):")
+    lengthStr_label = ttk.Label(new, text="Enter Simulation Length (in days):")
     lengthStr_entry = ttk.Entry(new, textvariable=lengthStr, width=20)
     lengthStr_entry.focus()
 
     btn = Button(new, text='Start Simulation', command=selected_item)
+    scrollbar = ttk.Scrollbar(new, orient='vertical', command=treeview.yview)
+    scrollbar.pack(side='right', fill='both')
+    treeview.configure(yscroll=scrollbar.set)
+
     btn.pack(side='bottom')
-    tree.pack()
+    treeview.pack()
     lengthStr_entry.pack(side='bottom')
     lengthStr_label.pack(side='bottom')
-
+    
 def searchBody():
     new= Toplevel(master)
     new.geometry("1500x400")
@@ -94,6 +131,9 @@ def searchBody():
     for i in query_result:
         tree.insert('', 'end', values=(i[0], i[1], i[2], i[3], i[4], i[5], i[6]))
 
+    scrollbar = ttk.Scrollbar(new, orient='vertical', command=tree.yview)
+    scrollbar.pack(side='right', fill='both')
+    tree.configure(yscroll=scrollbar.set)
     tree.pack()
     
 def searchSolar():
@@ -123,12 +163,24 @@ def searchSolar():
         x = x + 1
     
     #store length
-    lengthStr = StringVar()
-    lengthStr_label = ttk.Label(new, text="Simulation Length (in days):")
+    lengthStr = IntVar()
+    lengthStr_label = ttk.Label(new, text="Enter Simulation Length (in days):")
     lengthStr_entry = ttk.Entry(new, textvariable=lengthStr, width=20)
     lengthStr_entry.focus()
+    length = lengthStr.get()
+    print(length)
 
-    btn = Button(new, text='Start Simulation', command=selected_item)
+    if length < 1:
+        btn = Button(new, text='Start Simulation', command=date_error)
+    # elif int(lengthStr.get()).isdigit() == FALSE:
+    #     btn = Button(new, text='Start Simulation', command=date_error)
+    else:
+        btn = Button(new, text='Start Simulation', command=selected_item)
+    scrollbar = ttk.Scrollbar(new)
+    scrollbar.pack(side='right', fill='both')
+    lb.config(yscrollcommand=scrollbar.set)
+    scrollbar.config(command=lb.yview)
+
     btn.pack(side='bottom')
     lb.pack()
     lengthStr_entry.pack(side='bottom')
@@ -161,11 +213,16 @@ def searchLunar():
             
     #store length
     lengthStr = StringVar()
-    lengthStr_label = ttk.Label(new, text="Simulation Length (in days):")
+    lengthStr_label = ttk.Label(new, text="Enter Simulation Length (in days):")
     lengthStr_entry = ttk.Entry(new, textvariable=lengthStr, width=20)
     lengthStr_entry.focus()
 
     btn = Button(new, text='Start Simulation', command=selected_item)
+    scrollbar = ttk.Scrollbar(new)
+    scrollbar.pack(side='right', fill='both')
+    lb.config(yscrollcommand=scrollbar.set)
+    scrollbar.config(command=lb.yview)
+
     btn.pack(side='bottom')
     lb.pack()
     lengthStr_entry.pack(side='bottom')
@@ -198,16 +255,18 @@ def searchConj():
     
     for i in query_result:
         tree.insert('', 'end', values=(i[0], i[1], i[2]))
-            
-            
+               
     #store length
     lengthStr = StringVar()
-    lengthStr_label = ttk.Label(new, text="Simulation Length (in days):")
+    lengthStr_label = ttk.Label(new, text="Enter Simulation Length (in days):")
     lengthStr_entry = ttk.Entry(new, textvariable=lengthStr, width=20)
     lengthStr_entry.focus()
 
-    
     btn = Button(new, text='Start Simulation', command=selected_item)
+    scrollbar = ttk.Scrollbar(new, orient='vertical', command=tree.yview)
+    scrollbar.pack(side='right', fill='both')
+    tree.configure(yscroll=scrollbar.set)
+
     btn.pack(side='bottom')
     tree.pack()
     lengthStr_entry.pack(side='bottom')
