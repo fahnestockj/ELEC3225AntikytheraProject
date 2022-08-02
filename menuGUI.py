@@ -30,10 +30,17 @@ def searchAll():
     def date_error():
         messagebox.showerror('Python Error', 'Error: Invalid Simulation Length!')
     
+    def no_selection_error():
+        messagebox.showerror('Python Error', 'Error: Select a Date!')
+
     def selected_item():
         item = treeview.selection()
         item_detail = treeview.item(item)
-        solarSystem.simulation(item_detail.get("values")[1], lengthStr.get())
+        if item:
+            solarSystem.simulation(item_detail.get("values")[1], lengthStr.get())
+            btn.config(text = "Start Simulation")
+        else:
+            Label(master, command = no_selection_error()).pack()
 
     #class to sort treeview by event type (alphabetical) and by date (chronological)
     class MyTreeview(ttk.Treeview):
@@ -144,9 +151,16 @@ def searchSolar():
     Label(new, text="Solar Eclipse Dates", font=('Helvetica 17 bold')).pack(pady=30)
     def date_error():
         messagebox.showerror('Python Error', 'Error: Invalid Simulation Length!')
+    
+    def no_selection_error():
+        messagebox.showerror('Python Error', 'Error: Select a Date!')
+    
     def selected_item():
-        for i in lb.curselection():
-            solarSystem.simulation(lb.get(i), lengthStr.get())
+        if lb.curselection():
+            for i in lb.curselection():
+                solarSystem.simulation(lb.get(i), lengthStr.get())
+        elif lb.curselection() == ():
+            Label(master, command = no_selection_error()).pack()
 
     # QUERY FOR ALL SOLAR ECLIPSES
     cursor.execute("""SELECT SOLAR_ECLIPSES.DATE FROM SOLAR_ECLIPSES""")
@@ -163,19 +177,14 @@ def searchSolar():
         x = x + 1
     
     #store length
-    lengthStr = IntVar()
+    lengthStr = StringVar()
     lengthStr_label = ttk.Label(new, text="Enter Simulation Length (in days):")
     lengthStr_entry = ttk.Entry(new, textvariable=lengthStr, width=20)
     lengthStr_entry.focus()
     length = lengthStr.get()
     print(length)
 
-    if length < 1:
-        btn = Button(new, text='Start Simulation', command=date_error)
-    # elif int(lengthStr.get()).isdigit() == FALSE:
-    #     btn = Button(new, text='Start Simulation', command=date_error)
-    else:
-        btn = Button(new, text='Start Simulation', command=selected_item)
+    btn = Button(new, text='Start Simulation', command=selected_item)
     scrollbar = ttk.Scrollbar(new)
     scrollbar.pack(side='right', fill='both')
     lb.config(yscrollcommand=scrollbar.set)
@@ -192,11 +201,18 @@ def searchLunar():
     new.title("Lunar Eclipses")
     Label(new, text="Lunar Eclipse Dates", font=('Helvetica 17 bold')).pack(pady=30)
 
-    def date_error():
+    def sim_error():
         messagebox.showerror('Python Error', 'Error: Invalid Simulation Length!')
+    
+    def no_selection_error():
+        messagebox.showerror('Python Error', 'Error: Select a Date!')
+    
     def selected_item():
-        for i in lb.curselection():
-            solarSystem.simulation(lb.get(i), lengthStr.get())
+        if lb.curselection():
+            for i in lb.curselection():
+                solarSystem.simulation(lb.get(i), lengthStr.get())
+        elif lb.curselection() == ():
+            Label(master, command = no_selection_error()).pack()
 
     cursor.execute("""SELECT LUNAR_ECLIPSES.DATE FROM LUNAR_ECLIPSES""")
     query_result = cursor.fetchall()
@@ -217,6 +233,7 @@ def searchLunar():
     lengthStr_entry = ttk.Entry(new, textvariable=lengthStr, width=20)
     lengthStr_entry.focus()
 
+   
     btn = Button(new, text='Start Simulation', command=selected_item)
     scrollbar = ttk.Scrollbar(new)
     scrollbar.pack(side='right', fill='both')
@@ -243,13 +260,21 @@ def searchConj():
     tree.heading('p1', text='Planet 1 ID')
     tree.heading('p2', text='Planet 2 ID')
 
-    def date_error():
+    def sim_error():
         messagebox.showerror('Python Error', 'Error: Invalid Simulation Length!')
+    
+    def no_selection_error():
+        messagebox.showerror('Python Error', 'Error: Select a Date!')
+
     def selected_item():
         item = tree.selection()
         item_detail = tree.item(item)
-        solarSystem.simulation(item_detail.get("values")[0], lengthStr.get())
-
+        if item:
+            solarSystem.simulation(item_detail.get("values")[0], lengthStr.get())
+            btn.config(text = "Start Simulation")
+        else:
+            Label(master, command = no_selection_error()).pack()
+            
     cursor.execute("""SELECT CONJUNCTION.DATE, CONJUNCTION.FIRST_PLANET, CONJUNCTION.SECOND_PLANET FROM CONJUNCTION ORDER BY DATE DESC""")
     query_result = cursor.fetchall()
     
