@@ -19,6 +19,18 @@ master = Tk()
 master.geometry("200x175")
 master.title("Menu")
 
+# error message if no date selected
+def no_selection_error():
+    messagebox.showerror('Python Error', 'Error: Select a Date!')
+
+# function to only allow numeric inputs from user 
+def testVal(inStr,acttyp):
+    if acttyp == '1': #insert
+        if not inStr.isdigit():
+            return False
+    return True
+
+# function to display all event types and dates and start simulation. allows sort by clicking on column header
 def searchAll():
     new= Toplevel(master)
     new.geometry("750x400")
@@ -27,12 +39,7 @@ def searchAll():
     Label(new, text="Event List", font=('Helvetica 17 bold')).pack(pady=15)
     Label(new, text="Click Column Headings to Sort (alphabetical or chronological)", font=('Helvetica 10 bold')).pack(pady=0)
 
-    def date_error():
-        messagebox.showerror('Python Error', 'Error: Invalid Simulation Length!')
-    
-    def no_selection_error():
-        messagebox.showerror('Python Error', 'Error: Select a Date!')
-
+    # function to select item from list with cursor
     def selected_item():
         item = treeview.selection()
         item_detail = treeview.item(item)
@@ -99,7 +106,8 @@ def searchAll():
     #store simulation length
     lengthStr = StringVar()
     lengthStr_label = ttk.Label(new, text="Enter Simulation Length (in days):")
-    lengthStr_entry = ttk.Entry(new, textvariable=lengthStr, width=20)
+    lengthStr_entry = ttk.Entry(new, validate="key", textvariable=lengthStr, width=20)
+    lengthStr_entry['validatecommand'] = (lengthStr_entry.register(testVal),'%P','%d')
     lengthStr_entry.focus()
 
     btn = Button(new, text='Start Simulation', command=selected_item)
@@ -110,8 +118,9 @@ def searchAll():
     btn.pack(side='bottom')
     treeview.pack()
     lengthStr_entry.pack(side='bottom')
-    lengthStr_label.pack(side='bottom')
-    
+    lengthStr_label.pack(side='bottom')    
+
+# function to display all information about bodies in our solar system
 def searchBody():
     new= Toplevel(master)
     new.geometry("1500x400")
@@ -141,20 +150,17 @@ def searchBody():
     scrollbar = ttk.Scrollbar(new, orient='vertical', command=tree.yview)
     scrollbar.pack(side='right', fill='both')
     tree.configure(yscroll=scrollbar.set)
-    tree.pack()
-    
+    tree.pack()    
+
+# function to display all solar eclipse dates and start simulation
 def searchSolar():
     # Create new window
     new= Toplevel(master)
     new.geometry("750x400")
     new.title("Solar Eclipses")
     Label(new, text="Solar Eclipse Dates", font=('Helvetica 17 bold')).pack(pady=30)
-    def date_error():
-        messagebox.showerror('Python Error', 'Error: Invalid Simulation Length!')
     
-    def no_selection_error():
-        messagebox.showerror('Python Error', 'Error: Select a Date!')
-    
+    # function to select item from list with cursor
     def selected_item():
         if lb.curselection():
             for i in lb.curselection():
@@ -178,8 +184,9 @@ def searchSolar():
     
     #store length
     lengthStr = StringVar()
-    lengthStr_label = ttk.Label(new, text="Enter Simulation Length (in days):")
-    lengthStr_entry = ttk.Entry(new, textvariable=lengthStr, width=20)
+    lengthStr_label = ttk.Label(new, text="Enter Simulation Length in (in days):")
+    lengthStr_entry = ttk.Entry(new, validate="key", textvariable=lengthStr, width=20)
+    lengthStr_entry['validatecommand'] = (lengthStr_entry.register(testVal),'%P','%d')
     lengthStr_entry.focus()
     length = lengthStr.get()
     print(length)
@@ -195,18 +202,14 @@ def searchSolar():
     lengthStr_entry.pack(side='bottom')
     lengthStr_label.pack(side='bottom')
 
+# function to display all lunar eclipse dates and start simulation
 def searchLunar():
     new= Toplevel(master)
     new.geometry("750x400")
     new.title("Lunar Eclipses")
     Label(new, text="Lunar Eclipse Dates", font=('Helvetica 17 bold')).pack(pady=30)
-
-    def sim_error():
-        messagebox.showerror('Python Error', 'Error: Invalid Simulation Length!')
     
-    def no_selection_error():
-        messagebox.showerror('Python Error', 'Error: Select a Date!')
-    
+    # function to select item from list with cursor
     def selected_item():
         if lb.curselection():
             for i in lb.curselection():
@@ -230,7 +233,8 @@ def searchLunar():
     #store length
     lengthStr = StringVar()
     lengthStr_label = ttk.Label(new, text="Enter Simulation Length (in days):")
-    lengthStr_entry = ttk.Entry(new, textvariable=lengthStr, width=20)
+    lengthStr_entry = ttk.Entry(new, validate="key", textvariable=lengthStr, width=20)
+    lengthStr_entry['validatecommand'] = (lengthStr_entry.register(testVal),'%P','%d')
     lengthStr_entry.focus()
 
    
@@ -245,6 +249,7 @@ def searchLunar():
     lengthStr_entry.pack(side='bottom')
     lengthStr_label.pack(side='bottom')
 
+# function to display all planetary conjunction dates and start simulation
 def searchConj():
     new= Toplevel(master)
     new.geometry("750x500")
@@ -260,12 +265,7 @@ def searchConj():
     tree.heading('p1', text='Planet 1 ID')
     tree.heading('p2', text='Planet 2 ID')
 
-    def sim_error():
-        messagebox.showerror('Python Error', 'Error: Invalid Simulation Length!')
-    
-    def no_selection_error():
-        messagebox.showerror('Python Error', 'Error: Select a Date!')
-
+    # function to select item from list with cursor
     def selected_item():
         item = tree.selection()
         item_detail = tree.item(item)
@@ -284,7 +284,8 @@ def searchConj():
     #store length
     lengthStr = StringVar()
     lengthStr_label = ttk.Label(new, text="Enter Simulation Length (in days):")
-    lengthStr_entry = ttk.Entry(new, textvariable=lengthStr, width=20)
+    lengthStr_entry = ttk.Entry(new, validate="key", textvariable=lengthStr, width=20)
+    lengthStr_entry['validatecommand'] = (lengthStr_entry.register(testVal),'%P','%d')
     lengthStr_entry.focus()
 
     btn = Button(new, text='Start Simulation', command=selected_item)
@@ -301,24 +302,9 @@ def searchConj():
 v = StringVar(master, "1")
  
 # Create radiobuttons
-R0 = Radiobutton(master, text = "All Events", variable = v,
-            value = 1, indicator = 0,
-            command = searchAll,
-            background = "light blue").pack(fill = X, ipady = 5)
-R1 = Radiobutton(master, text = "Bodies", variable = v,
-            value = 1, indicator = 0,
-            command = searchBody,
-            background = "light blue").pack(fill = X, ipady = 5)
-R2 = Radiobutton(master, text = "Solar Eclipse Dates", variable = v,
-            value = 2, indicator = 0,
-            command = searchSolar,
-            background = "light blue").pack(fill = X, ipady = 5)
-R3 = Radiobutton(master, text = "Lunar Eclipse Dates", variable = v,
-            value = 3, indicator = 0,
-            command = searchLunar,
-            background = "light blue").pack(fill = X, ipady = 5)
-R4 = Radiobutton(master, text = "Conjunction Dates", variable = v,
-            value = 3, indicator = 0,
-            command = searchConj,
-            background = "light blue").pack(fill = X, ipady = 5)
+R0 = Radiobutton(master, text = "All Events", variable = v, value = 1, indicator = 0, command = searchAll, background = "light blue").pack(fill = X, ipady = 5)
+R1 = Radiobutton(master, text = "Bodies", variable = v, value = 1, indicator = 0, command = searchBody, background = "light blue").pack(fill = X, ipady = 5)
+R2 = Radiobutton(master, text = "Solar Eclipse Dates", variable = v, value = 2, indicator = 0, command = searchSolar, background = "light blue").pack(fill = X, ipady = 5)
+R3 = Radiobutton(master, text = "Lunar Eclipse Dates", variable = v, value = 3, indicator = 0, command = searchLunar, background = "light blue").pack(fill = X, ipady = 5)
+R4 = Radiobutton(master, text = "Conjunction Dates", variable = v, value = 3, indicator = 0, command = searchConj, background = "light blue").pack(fill = X, ipady = 5)
 mainloop()
