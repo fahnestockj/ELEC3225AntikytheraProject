@@ -21,7 +21,10 @@ master.title("Menu")
 
 # error message if no date selected
 def no_selection_error():
-    messagebox.showerror('Python Error', 'Error: Select a Date!')
+    messagebox.showerror('Python Error', 'Error: No Date Selected!')
+
+def no_length_error():
+    messagebox.showerror('Python Error', 'Error: No Simulation Length!')
 
 # function to only allow numeric inputs from user 
 def testVal(inStr,acttyp):
@@ -30,7 +33,7 @@ def testVal(inStr,acttyp):
             return False
     return True
 
-# function to display all event types and dates and start simulation. allows sort by clicking on column header
+# function to display all event types and dates and start simulation. sort by clicking on column headers
 def searchAll():
     new= Toplevel(master)
     new.geometry("750x400")
@@ -43,12 +46,13 @@ def searchAll():
     def selected_item():
         item = treeview.selection()
         item_detail = treeview.item(item)
-        if item:
+        if (item and lengthStr.get()):
             solarSystem.simulation(item_detail.get("values")[1], lengthStr.get())
             btn.config(text = "Start Simulation")
-        else:
+        elif not item:
             Label(master, command = no_selection_error()).pack()
-
+        elif not lengthStr.get():
+            Label(master, command = no_length_error()).pack()
     #class to sort treeview by event type (alphabetical) and by date (chronological)
     class MyTreeview(ttk.Treeview):
         def heading(self, column, sort_by=None, **kwargs):
@@ -162,11 +166,13 @@ def searchSolar():
     
     # function to select item from list with cursor
     def selected_item():
-        if lb.curselection():
+        if (lb.curselection() and lengthStr.get()):
             for i in lb.curselection():
                 solarSystem.simulation(lb.get(i), lengthStr.get())
         elif lb.curselection() == ():
             Label(master, command = no_selection_error()).pack()
+        elif not lengthStr.get():
+            Label(master, command = no_length_error()).pack()
 
     # QUERY FOR ALL SOLAR ECLIPSES
     cursor.execute("""SELECT SOLAR_ECLIPSES.DATE FROM SOLAR_ECLIPSES""")
@@ -211,11 +217,13 @@ def searchLunar():
     
     # function to select item from list with cursor
     def selected_item():
-        if lb.curselection():
+        if (lb.curselection() and lengthStr.get()):
             for i in lb.curselection():
                 solarSystem.simulation(lb.get(i), lengthStr.get())
         elif lb.curselection() == ():
             Label(master, command = no_selection_error()).pack()
+        elif not lengthStr.get():
+            Label(master, command = no_length_error()).pack()
 
     cursor.execute("""SELECT LUNAR_ECLIPSES.DATE FROM LUNAR_ECLIPSES""")
     query_result = cursor.fetchall()
@@ -269,11 +277,13 @@ def searchConj():
     def selected_item():
         item = tree.selection()
         item_detail = tree.item(item)
-        if item:
+        if (item and lengthStr.get()):
             solarSystem.simulation(item_detail.get("values")[0], lengthStr.get())
             btn.config(text = "Start Simulation")
-        else:
+        elif not lengthStr.get():
             Label(master, command = no_selection_error()).pack()
+        elif not lengthStr.get():
+            Label(master, command = no_length_error()).pack()
             
     cursor.execute("""SELECT CONJUNCTION.DATE, CONJUNCTION.FIRST_PLANET, CONJUNCTION.SECOND_PLANET FROM CONJUNCTION ORDER BY DATE DESC""")
     query_result = cursor.fetchall()
